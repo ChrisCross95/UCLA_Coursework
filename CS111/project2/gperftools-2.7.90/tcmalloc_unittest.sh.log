@@ -1,0 +1,8 @@
+-n Testing ./tcmalloc_unittest with TCMALLOC_TRANSFER_NUM_OBJ= ... 
+./tcmalloc_unittest.sh: line 47: 97302 Killed: 9               $TCMALLOC_UNITTEST > $TMPDIR/output 2>&1
+FAILED
+Output from the failed run:
+----
+src/central_freelist.cc:330] tcmalloc: allocation failed 8192 
+----
+FAIL tcmalloc_unittest.sh (exit status: 4)

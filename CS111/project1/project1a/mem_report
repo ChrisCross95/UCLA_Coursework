@@ -1,0 +1,85 @@
+==1547== Memcheck, a memory error detector
+==1547== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==1547== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==1547== Command: ./lab1a
+==1547== Parent PID: 1514
+==1547== 
+==1547== Conditional jump or move depends on uninitialised value(s)
+==1547==    at 0x401036: main (in /vagrant/project1/lab1a)
+==1547== 
+==1547== Syscall param write(buf) contains uninitialised byte(s)
+==1547==    at 0x4F312C0: __write_nocancel (syscall-template.S:84)
+==1547==    by 0x400FE8: main (in /vagrant/project1/lab1a)
+==1547== 
+==1547== Syscall param write(buf) points to unaddressable byte(s)
+==1547==    at 0x4F312C0: __write_nocancel (syscall-template.S:84)
+==1547==    by 0x400FE8: main (in /vagrant/project1/lab1a)
+==1547==  Address 0x5204053 is 19 bytes inside a block of size 20 free'd
+==1547==    at 0x4C2FD5F: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400B3E: check_buffer (in /vagrant/project1/lab1a)
+==1547==    by 0x400F3C: main (in /vagrant/project1/lab1a)
+==1547==  Block was alloc'd at
+==1547==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400E13: main (in /vagrant/project1/lab1a)
+==1547== 
+==1547== Invalid write of size 1
+==1547==    at 0x400F17: main (in /vagrant/project1/lab1a)
+==1547==  Address 0x5204054 is 0 bytes after a block of size 20 free'd
+==1547==    at 0x4C2FD5F: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400B3E: check_buffer (in /vagrant/project1/lab1a)
+==1547==    by 0x400F3C: main (in /vagrant/project1/lab1a)
+==1547==  Block was alloc'd at
+==1547==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400E13: main (in /vagrant/project1/lab1a)
+==1547== 
+==1547== Invalid write of size 1
+==1547==    at 0x400EB7: main (in /vagrant/project1/lab1a)
+==1547==  Address 0x5204057 is 3 bytes after a block of size 20 free'd
+==1547==    at 0x4C2FD5F: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400B3E: check_buffer (in /vagrant/project1/lab1a)
+==1547==    by 0x400F3C: main (in /vagrant/project1/lab1a)
+==1547==  Block was alloc'd at
+==1547==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400E13: main (in /vagrant/project1/lab1a)
+==1547== 
+==1547== Invalid write of size 1
+==1547==    at 0x400EF1: main (in /vagrant/project1/lab1a)
+==1547==  Address 0x5204058 is 4 bytes after a block of size 20 free'd
+==1547==    at 0x4C2FD5F: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400B3E: check_buffer (in /vagrant/project1/lab1a)
+==1547==    by 0x400F3C: main (in /vagrant/project1/lab1a)
+==1547==  Block was alloc'd at
+==1547==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400E13: main (in /vagrant/project1/lab1a)
+==1547== 
+==1547== Invalid free() / delete / delete[] / realloc()
+==1547==    at 0x4C2EDEB: free (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x4010ED: main (in /vagrant/project1/lab1a)
+==1547==  Address 0x5204040 is 0 bytes inside a block of size 20 free'd
+==1547==    at 0x4C2FD5F: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400B3E: check_buffer (in /vagrant/project1/lab1a)
+==1547==    by 0x400F3C: main (in /vagrant/project1/lab1a)
+==1547==  Block was alloc'd at
+==1547==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400E13: main (in /vagrant/project1/lab1a)
+==1547== 
+==1547== 
+==1547== HEAP SUMMARY:
+==1547==     in use at exit: 40 bytes in 1 blocks
+==1547==   total heap usage: 3 allocs, 3 frees, 1,084 bytes allocated
+==1547== 
+==1547== 40 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==1547==    at 0x4C2FD5F: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1547==    by 0x400B3E: check_buffer (in /vagrant/project1/lab1a)
+==1547==    by 0x400F3C: main (in /vagrant/project1/lab1a)
+==1547== 
+==1547== LEAK SUMMARY:
+==1547==    definitely lost: 40 bytes in 1 blocks
+==1547==    indirectly lost: 0 bytes in 0 blocks
+==1547==      possibly lost: 0 bytes in 0 blocks
+==1547==    still reachable: 0 bytes in 0 blocks
+==1547==         suppressed: 0 bytes in 0 blocks
+==1547== 
+==1547== For counts of detected and suppressed errors, rerun with: -v
+==1547== Use --track-origins=yes to see where uninitialised values come from
+==1547== ERROR SUMMARY: 185 errors from 8 contexts (suppressed: 0 from 0)

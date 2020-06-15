@@ -1,0 +1,212 @@
+NAME: Christopher Cross
+EMAIL: cc28@alumni.princeton.edu
+ID: 105238261
+
+//////////////////////////////////////////////////////////////
+(Very) Sloppy Counter
+Mutex wait timing is tricky. If each thread updates a global
+counter, we have introduced another race condition, which
+requires more synchronization, which will skew various
+metrics. So we implement a sloppy counter. We initialize
+an array of long long ints (n = n_threads) and allow each
+thread to increment its lock wait time independently. We then
+sum these independent lock wait times to get a total lock
+wait time. 
+//////////////////////////////////////////////////////////////
+
+QUESTION 2.3.1 - CPU time in the basic list implementation:
+    Q: Where do you believe most of the CPU time is spent
+       in the 1 and 2-thread list tests?
+    A: For 1 and 2-thread list tests, the probability of
+       contention is low. Therefore, most of the CPU time
+       is spent traversing the list.
+
+    Q: Why do you believe these to be the most expensive
+       parts of the code?
+    A: The while-loops in Insert(), Lookup(), and Length()
+       are the most expensive parts of the code. This is
+       because length() is always O(n) and in the worst case,
+       insert() and lookup() seem to be O(n). For example,
+       inserting or looking up the largest key requires
+       traversing the entire list. Meanwhile, delete() is
+       merely O(1). Further, using gperftool profiling, I
+       determined that that strcmp() is relatively expensive,
+       which has implications for the time complexity of
+       the lookup and insert methods. The gperftool output
+       for lookup is given below. The output for insert is
+       similiar:
+       
+       ROUTINE ====================== SortedList_lookup in SortedList.c
+           11     33 Total samples (flat / cumulative)
+            .      .   82:  * @param const char * key ... the desired key
+            .      .   83:  *
+            .      .   84:  * @return pointer to matching element, or NULL if none is found
+            .      .   85:  */
+            .      .   86: SortedListElement_t*
+       ---
+            .      .   87: SortedList_lookup(SortedList_t *list, const char *key) {
+            .      .   88:
+            .      .   89:     /** start a list head */
+            .      .   90:     struct SortedListElement *lookup;
+            .      .   91:     lookup = list->next;
+            .      .   92:
+            6     20   93:     while ( (lookup != list) && (strcmp(key, lookup->key) < 1) ) {
+            .      .   94:         /** critical section begin */
+            2      2   95:         if (opt_yield & LOOKUP_YIELD) { sched_yield(); }
+            .      .   96:
+            3     11   97:         if ( strcmp(key, (lookup->key)) == 0 ) { return lookup; }
+            .      .   98:
+            .      .   99:         lookup = lookup->next;
+            .      .  100:     }
+            .      .  101:     /** return NULL if no matching elemetn is found */
+            .      .  102:     return NULL;
+            .      .  103: }
+       ---
+            .      .  104:
+    
+       The output confirms that the while-loop implementation
+       is expensive. Further, we see that strcmp() is costly.
+       This is due to the character-by-character comparison
+       strcmp() implements to determine lexicographicl order.
+       The operations occur in O(n), where n is the length of
+       the element key value. Therefore, the lookup and insert
+       functions are NOT O(n). Rather, they are O(m*n), where
+       m is the length of the list and n is the length of the
+       key value.
+
+    Q: Where do you believe most of the CPU time is being
+       spent in the high-thread spin-lock tests?
+    A: During the high-thread spin-lock test, most of the
+       CPU time is spent... spinning. The nested while-loop
+       construction means that the only way that a thread
+       can continue execution is to acquire the lock.
+       Threads may experience many time slice expirations
+       before this occurs.
+
+    Q: Where do you believe most of the CPU time is being
+       spent in the high-thread mutex tests?
+    A: During high-thread mutex tests, most of the CPU time
+       is being spent on context switches. While mutex-based
+       synchronization permits threads to yield if a lock is
+       unavaliable, it does not mitigate the cost of save
+       and restore registers, program counters, stack pointers,
+       etc. Yielding is more performant than spinning, but
+       still incurs a cost because of context switching.
+
+
+QUESTION 2.3.2 - Execution Profiling:
+    Q: Where (what lines of code) are consuming most of the CPU
+       time when the spin-lock version of the list exerciser is
+       run with a large number of threads?
+    A: The output from gperftools shows that spinning is the
+       expensive operation. Which occurs in the double while-loop
+       construction.
+       
+       When attempting to insert:
+         .      .  142:         // Attempt to acquire lock
+         .      .  143:         if (sync_type == 'm') { pthread_mutex_lock(&mutex_arr[sublist_idx]); }
+         .      .  144:         else if (sync_type == 's') {
+         2      2  145:             while (__sync_lock_test_and_set(&lock_arr_s[sublist_idx], 1)) {
+       684    684  146:                 while (lock_arr_s[sublist_idx]);
+         .      .  147:             }
+         .      .  148:         }
+       
+       When attempting to lookup:
+         .      .  220:         // Attempt to acquire lock
+         .      .  221:         if (sync_type == 'm') { pthread_mutex_lock(&mutex_arr[sublist_idx]); }
+         .      .  222:         else if (sync_type == 's') {
+         1      1  223:             while (__sync_lock_test_and_set(&lock_arr_s[sublist_idx], 1)) {
+       587    587  224:                 while (lock_arr_s[sublist_idx]);
+         .      .  225:             }
+         .      .  226:         }
+
+    Q: Why does this operation become so expensive with large
+       numbers of threads?
+    A: The spin operation becoems so expensive with large
+       numbers of threads because increasing thread count
+       increases the probability of contention. This, in
+       turn, increases the probability that any given thread
+       attempts to acquired a locked lock and begin spins,
+       which actually prevents the thread with the locked
+       from completing its task and releaseing the lock.
+       Very counterproductive.
+
+
+QUESTION 2.3.3 - Mutex Wait Time:
+    Q: Look at the average time per operation (vs. # threads)
+       and the average wait-for-mutex time (vs. #threads).
+    A: The average wait-for-mutex time rises much more rapidly
+       than the average time per operation as the number of
+       threads increases
+
+    Q: Why does the average lock-wait time rise so dramatically
+       with the number of contending threads?
+    A: The average lock-wait time rises so dramatically with
+       the number of contending threads because as the probability
+       of contention rises, the total lock-wait time increases
+       for *every* thread that is waiting. When the probability
+       of contention is high, there are lots of threads, so
+       many threads are waiting at the same time.
+       
+    Q: Why does the completion time per operation rise
+       (less dramatically) with the number of contending threads?
+    A: The completion time per operation rises less dramatically
+       because it is based on the total runtime of the test, and
+       therefore does not factor in the wait times of individual
+       threads. In this case, the completion time per operation is
+       a process metric, not a thread metric.
+       
+    Q: How is it possible for the wait time per operation to go up
+       faster (or higher) than the completion time per operation?
+    A: Is is possible for the wait time per operation to increase
+       faster than the completion time per operation because
+       each threads uses a private wall clock to determine total
+       wait time, which is then used to calculate average wait
+       time. Similiar to the concept of "man hours."
+
+
+QUESTION 2.3.4 - Performance of Partitioned Lists
+    Q: Explain the change in performance of the synchronized methods
+       as a function of the number of lists.
+    A: The avg lock-wait time and avg completion time decrease as a
+       function of the number of threads. However, the decrease in
+       performance is greatly mitigated (by orders of magnitude) by
+       increasing the number of lists. This is due to fine-grain
+       synchronization, which reduces the probability of contention.
+
+    Q: Should the throughput continue increasing as the number of
+       lists is further increased? If not, explain why not.
+    A: The throughput should not continue increasing as the number n
+       of lists increaes. This is because as n grows without bound,
+       the probability of contention becomes negligible, and every
+       attempt to acquire a lock succeeds on the first try. This
+       assumes that you have a good hash function with a uniform
+       distribution of hash values. This also assumes that the
+       number of threads is significantly less than the number of
+       lists.
+       
+    Q: It seems reasonable to suggest the throughput of an N-way
+       partitioned list should be equivalent to the throughput of a
+       single list with fewer (1/N) threads. Does this appear to be true
+       in the above curves? If not, explain why not.
+    A: Such a hypothesis would imply minimal contention. However, this is
+       not the case suggested by the data. There are two primary reasons
+       for this. First, given random keys, a hash function, and a
+       pseudo-random scheduler, several threads my end up in contention
+       for a lock while several other locks remain free. This reduces list
+       utilization and drives up overhead. Second, in the length() method,
+       lock acquisition is strictly ordered. This can result in a convoy
+       effect where blocked thread A also prevents threads B, C, and D from
+       calculating the total length.
+       
+       One possible solution to the convy effect is to let threads 'jump
+       around' and attempt to acquire looks out of order. Threads would
+       then need to keep a record of visited sublists. Such an optimization
+       could be implemented with pthread_mutex_trylock(), a for loop
+       and an boolean-valued array that keeps track of visted sublists. A
+       thread would essentially make one lap around this array and stop,
+       since the status of a locked lock could not have changed during this
+       context. Such a revision may reduce the costs of context switching;
+       however, the time complexity would be indeterministic, since we cannot
+       know a priori how many times we might have to traverse the list of
+       lists. Here we are weighing optimization against uncertainty.

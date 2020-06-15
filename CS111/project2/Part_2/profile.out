@@ -1,0 +1,295 @@
+
+ROUTINE ====================== list_thrd in /u/eng/class/classccr/CS111/proj2/Part_2/lab2_list.c
+   640    711 Total samples (flat / cumulative)
+     .      .  117:     
+     .      .  118:     return key_hash_value;
+     .      .  119: }
+     .      .  120: 
+     .      .  121: void*
+---
+     .      .  122: list_thrd(void *offset_p) {
+     .      .  123:     
+     .      .  124:     int offset = (int) (*((int*) offset_p));
+     .      .  125:     fprintf(stderr,"offset: %d\n", offset);
+     .      .  126:     struct timespec thrd_wait_start, thrd_wait_end;
+     .      .  127:     const char * elem_key;
+     .      .  128:     int sublist_idx;
+     .      .  129:     
+     .      .  130:     /* - - - - - - - - - - - INSERTIONS - - - - - - - - - - - - - */
+     .      .  131:     
+     .      .  132:     for (int i = (offset * n_iterations); i < (offset + 1) * n_iterations; i++) {
+     .      .  133:         
+     .      .  134:         // Hash key to get appropriate sublist
+     .      .  135:         elem_key = element_pool[i].key;
+     .      .  136:         sublist_idx = get_key_hash(elem_key);
+     .      .  137:         // fprintf(stderr,"hash value: %d\n", sublist_idx);
+     .      .  138:         
+     .      .  139:         // Start wait clock
+     .      .  140:         get_time(&thrd_wait_start);
+     .      .  141:         
+     .      .  142:         // Attempt to acquire lock
+     .      .  143:         if (sync_type == 'm') { pthread_mutex_lock(&mutex_arr[sublist_idx]); }
+     .      .  144:         else if (sync_type == 's') {
+     3      3  145:             while (__sync_lock_test_and_set(&lock_arr_s[sublist_idx], 1)) {
+   507    507  146:                 while (lock_arr_s[sublist_idx]);
+     .      .  147:             }
+     .      .  148:         }
+     .      .  149:         
+     .      .  150:         // Calculate wait time
+     .      3  151:         get_time(&thrd_wait_end);
+     1      1  152:         thrd_lock_wait[offset] += get_runtime(&thrd_wait_start, &thrd_wait_end);
+     .      .  153:         
+     .      .  154:         // Perform Insertion
+     .     27  155:         SortedList_insert(global_list[sublist_idx], &element_pool[i]);
+     .      .  156:         
+     .      .  157:         // Release lock
+     .      .  158:         if (sync_type == 'm') { pthread_mutex_unlock(&mutex_arr[sublist_idx]); }
+     .      .  159:         else if (sync_type == 's') { __sync_lock_release(&lock_arr_s[sublist_idx]); }
+     .      .  160:         
+     .      .  161:         // fprintf(stderr,"Thread %d performed an insertion into list %d\n", offset, sublist_idx);
+     .      .  162:     }
+     .      .  163:     
+     .      .  164:     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+     .      .  165:     
+     .      .  166:     // fprintf(stderr,"Insertions Complete\n");
+     .      .  167:     
+     .      .  168:     /* - - - - - - - - - - - - - - - - GET LENGTH - - - - - - - - - - - - - - - - */
+     .      .  169:     
+     .      .  170:     // Variable to store list length
+     .      .  171:     int list_len = 0;
+     .      .  172:     for (int i = 0; i < n_lists; i++) {
+     .      .  173: 
+     .      .  174:         // Start wait clock
+     .      .  175:         get_time(&thrd_wait_start);
+     .      .  176: 
+     .      .  177:         // Attempt to acquire lock
+     .      .  178:         if (sync_type == 'm') { pthread_mutex_lock(&mutex_arr[i]); }
+     .      .  179:         else if (sync_type == 's') {
+     .      .  180:             while (__sync_lock_test_and_set(&lock_arr_s[i], 1)) {
+     .      .  181:                 while (lock_arr_s[i]);
+     .      .  182:             }
+     .      .  183:         }
+     .      .  184: 
+     .      .  185:         // Calculate wait time
+     .      .  186:         get_time(&thrd_wait_end);
+     .      .  187:         thrd_lock_wait[offset] += get_runtime(&thrd_wait_start, &thrd_wait_end);
+     .      .  188: 
+     .      .  189:         
+     .      .  190:         // Get sublist length
+     .      .  191:         int len_ret = SortedList_length(global_list[i]);
+     .      .  192:         // Reported any instance of corrupton
+     .      .  193:         if (len_ret == -1) {
+     .      .  194:             fprintf(stderr, "Corrupted list detected when getting list len in thread\n");
+     .      .  195:             sig_corrupt();
+     .      .  196:         }
+     .      .  197:         list_len += len_ret;
+     .      .  198:         
+     .      .  199:         // Release lock
+     .      .  200:         if (sync_type == 'm') { pthread_mutex_unlock(&mutex_arr[i]); }
+     .      .  201:         else if (sync_type == 's') { __sync_lock_release(&lock_arr_s[i]); }
+     .      .  202:     }
+     .      .  203:     
+     .      .  204:     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+     .      .  205:     
+     .      .  206:     // fprintf(stderr,"Length Complete\n");
+     .      .  207:     
+     .      .  208:     /* - - - - - - - - - - - - - - - LOOK UP AND DELETE - - - - - - - - - - - - - - */
+     .      .  209:     
+     .      .  210:     // looks up and deletes each of the keys it had previously inserted
+     .      .  211:     for (int i = (offset * n_iterations); i < (offset + 1) * n_iterations; i++) {
+     .      .  212:         
+     .      .  213:         // Hash key to get appropriate sublist
+     .      .  214:         elem_key = element_pool[i].key;
+     .      .  215:         sublist_idx = get_key_hash(elem_key);
+     .      .  216:         
+     .      .  217:         // Start wait clock
+     .      .  218:         get_time(&thrd_wait_start);
+     .      .  219:         
+     .      .  220:         // Attempt to acquire lock
+     .      .  221:         if (sync_type == 'm') { pthread_mutex_lock(&mutex_arr[sublist_idx]); }
+     .      .  222:         else if (sync_type == 's') {
+     2      2  223:             while (__sync_lock_test_and_set(&lock_arr_s[sublist_idx], 1)) {
+   127    127  224:                 while (lock_arr_s[sublist_idx]);
+     .      .  225:             }
+     .      .  226:         }
+     .      .  227:         
+     .      .  228:         // Calculate wait time
+     .      .  229:         get_time(&thrd_wait_end);
+     .      .  230:         thrd_lock_wait[offset] += get_runtime(&thrd_wait_start, &thrd_wait_end);
+     .      .  231:         
+     .      .  232:         // Perform look, Report any list corruption
+     .     41  233:         if ( SortedList_lookup(global_list[sublist_idx], element_pool[i].key) == NULL ) {
+     .      .  234:             fprintf(stderr, "Corrupted list detected when looking up in thread\n");
+     .      .  235:             sig_corrupt();
+     .      .  236:         }
+     .      .  237:         
+     .      .  238:         // Perform deletion, Report any list corruption
+     .      .  239:         if ( SortedList_delete(&element_pool[i]) == 1) {
+     .      .  240:             fprintf(stderr, "Corrupted list detected when deleting in thread\n");
+     .      .  241:             sig_corrupt();
+     .      .  242:         }
+     .      .  243:         
+     .      .  244:         // Release locks
+     .      .  245:         if (sync_type == 'm') { pthread_mutex_unlock(&mutex_arr[sublist_idx]); }
+     .      .  246:         else if (sync_type == 's') { __sync_lock_release(&lock_arr_s[sublist_idx]); }
+     .      .  247:     }
+     .      .  248:     
+     .      .  249:     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+     .      .  250:     
+     .      .  251:     // fprintf(stderr,"Lookups/Deletions Complete\n");
+     .      .  252:     
+     .      .  253:     return NULL;
+     .      .  254: }
+---
+     .      .  255: 
+     .      .  256: void
+     .      .  257: get_opts(int argc, char **argv) {
+     .      .  258:     int returned_option;
+     .      .  259:     char s_arg;
+ROUTINE ====================== list_thrd in /u/eng/class/classccr/CS111/proj2/Part_2/lab2_list.c
+   640    711 Total samples (flat / cumulative)
+     .      .  117:     
+     .      .  118:     return key_hash_value;
+     .      .  119: }
+     .      .  120: 
+     .      .  121: void*
+---
+     .      .  122: list_thrd(void *offset_p) {
+     .      .  123:     
+     .      .  124:     int offset = (int) (*((int*) offset_p));
+     .      .  125:     fprintf(stderr,"offset: %d\n", offset);
+     .      .  126:     struct timespec thrd_wait_start, thrd_wait_end;
+     .      .  127:     const char * elem_key;
+     .      .  128:     int sublist_idx;
+     .      .  129:     
+     .      .  130:     /* - - - - - - - - - - - INSERTIONS - - - - - - - - - - - - - */
+     .      .  131:     
+     .      .  132:     for (int i = (offset * n_iterations); i < (offset + 1) * n_iterations; i++) {
+     .      .  133:         
+     .      .  134:         // Hash key to get appropriate sublist
+     .      .  135:         elem_key = element_pool[i].key;
+     .      .  136:         sublist_idx = get_key_hash(elem_key);
+     .      .  137:         // fprintf(stderr,"hash value: %d\n", sublist_idx);
+     .      .  138:         
+     .      .  139:         // Start wait clock
+     .      .  140:         get_time(&thrd_wait_start);
+     .      .  141:         
+     .      .  142:         // Attempt to acquire lock
+     .      .  143:         if (sync_type == 'm') { pthread_mutex_lock(&mutex_arr[sublist_idx]); }
+     .      .  144:         else if (sync_type == 's') {
+     3      3  145:             while (__sync_lock_test_and_set(&lock_arr_s[sublist_idx], 1)) {
+   507    507  146:                 while (lock_arr_s[sublist_idx]);
+     .      .  147:             }
+     .      .  148:         }
+     .      .  149:         
+     .      .  150:         // Calculate wait time
+     .      3  151:         get_time(&thrd_wait_end);
+     1      1  152:         thrd_lock_wait[offset] += get_runtime(&thrd_wait_start, &thrd_wait_end);
+     .      .  153:         
+     .      .  154:         // Perform Insertion
+     .     27  155:         SortedList_insert(global_list[sublist_idx], &element_pool[i]);
+     .      .  156:         
+     .      .  157:         // Release lock
+     .      .  158:         if (sync_type == 'm') { pthread_mutex_unlock(&mutex_arr[sublist_idx]); }
+     .      .  159:         else if (sync_type == 's') { __sync_lock_release(&lock_arr_s[sublist_idx]); }
+     .      .  160:         
+     .      .  161:         // fprintf(stderr,"Thread %d performed an insertion into list %d\n", offset, sublist_idx);
+     .      .  162:     }
+     .      .  163:     
+     .      .  164:     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+     .      .  165:     
+     .      .  166:     // fprintf(stderr,"Insertions Complete\n");
+     .      .  167:     
+     .      .  168:     /* - - - - - - - - - - - - - - - - GET LENGTH - - - - - - - - - - - - - - - - */
+     .      .  169:     
+     .      .  170:     // Variable to store list length
+     .      .  171:     int list_len = 0;
+     .      .  172:     for (int i = 0; i < n_lists; i++) {
+     .      .  173: 
+     .      .  174:         // Start wait clock
+     .      .  175:         get_time(&thrd_wait_start);
+     .      .  176: 
+     .      .  177:         // Attempt to acquire lock
+     .      .  178:         if (sync_type == 'm') { pthread_mutex_lock(&mutex_arr[i]); }
+     .      .  179:         else if (sync_type == 's') {
+     .      .  180:             while (__sync_lock_test_and_set(&lock_arr_s[i], 1)) {
+     .      .  181:                 while (lock_arr_s[i]);
+     .      .  182:             }
+     .      .  183:         }
+     .      .  184: 
+     .      .  185:         // Calculate wait time
+     .      .  186:         get_time(&thrd_wait_end);
+     .      .  187:         thrd_lock_wait[offset] += get_runtime(&thrd_wait_start, &thrd_wait_end);
+     .      .  188: 
+     .      .  189:         
+     .      .  190:         // Get sublist length
+     .      .  191:         int len_ret = SortedList_length(global_list[i]);
+     .      .  192:         // Reported any instance of corrupton
+     .      .  193:         if (len_ret == -1) {
+     .      .  194:             fprintf(stderr, "Corrupted list detected when getting list len in thread\n");
+     .      .  195:             sig_corrupt();
+     .      .  196:         }
+     .      .  197:         list_len += len_ret;
+     .      .  198:         
+     .      .  199:         // Release lock
+     .      .  200:         if (sync_type == 'm') { pthread_mutex_unlock(&mutex_arr[i]); }
+     .      .  201:         else if (sync_type == 's') { __sync_lock_release(&lock_arr_s[i]); }
+     .      .  202:     }
+     .      .  203:     
+     .      .  204:     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+     .      .  205:     
+     .      .  206:     // fprintf(stderr,"Length Complete\n");
+     .      .  207:     
+     .      .  208:     /* - - - - - - - - - - - - - - - LOOK UP AND DELETE - - - - - - - - - - - - - - */
+     .      .  209:     
+     .      .  210:     // looks up and deletes each of the keys it had previously inserted
+     .      .  211:     for (int i = (offset * n_iterations); i < (offset + 1) * n_iterations; i++) {
+     .      .  212:         
+     .      .  213:         // Hash key to get appropriate sublist
+     .      .  214:         elem_key = element_pool[i].key;
+     .      .  215:         sublist_idx = get_key_hash(elem_key);
+     .      .  216:         
+     .      .  217:         // Start wait clock
+     .      .  218:         get_time(&thrd_wait_start);
+     .      .  219:         
+     .      .  220:         // Attempt to acquire lock
+     .      .  221:         if (sync_type == 'm') { pthread_mutex_lock(&mutex_arr[sublist_idx]); }
+     .      .  222:         else if (sync_type == 's') {
+     2      2  223:             while (__sync_lock_test_and_set(&lock_arr_s[sublist_idx], 1)) {
+   127    127  224:                 while (lock_arr_s[sublist_idx]);
+     .      .  225:             }
+     .      .  226:         }
+     .      .  227:         
+     .      .  228:         // Calculate wait time
+     .      .  229:         get_time(&thrd_wait_end);
+     .      .  230:         thrd_lock_wait[offset] += get_runtime(&thrd_wait_start, &thrd_wait_end);
+     .      .  231:         
+     .      .  232:         // Perform look, Report any list corruption
+     .     41  233:         if ( SortedList_lookup(global_list[sublist_idx], element_pool[i].key) == NULL ) {
+     .      .  234:             fprintf(stderr, "Corrupted list detected when looking up in thread\n");
+     .      .  235:             sig_corrupt();
+     .      .  236:         }
+     .      .  237:         
+     .      .  238:         // Perform deletion, Report any list corruption
+     .      .  239:         if ( SortedList_delete(&element_pool[i]) == 1) {
+     .      .  240:             fprintf(stderr, "Corrupted list detected when deleting in thread\n");
+     .      .  241:             sig_corrupt();
+     .      .  242:         }
+     .      .  243:         
+     .      .  244:         // Release locks
+     .      .  245:         if (sync_type == 'm') { pthread_mutex_unlock(&mutex_arr[sublist_idx]); }
+     .      .  246:         else if (sync_type == 's') { __sync_lock_release(&lock_arr_s[sublist_idx]); }
+     .      .  247:     }
+     .      .  248:     
+     .      .  249:     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+     .      .  250:     
+     .      .  251:     // fprintf(stderr,"Lookups/Deletions Complete\n");
+     .      .  252:     
+     .      .  253:     return NULL;
+     .      .  254: }
+---
+     .      .  255: 
+     .      .  256: void
+     .      .  257: get_opts(int argc, char **argv) {
+     .      .  258:     int returned_option;
+     .      .  259:     char s_arg;

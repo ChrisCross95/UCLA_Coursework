@@ -1,0 +1,8 @@
+Original usage: 264
+Post allocation: 1704200
+Post idle: 264
+Original usage: 0
+Post allocation: 1703936
+Post idle: 0
+PASS
+PASS markidle_unittest (exit status: 0)

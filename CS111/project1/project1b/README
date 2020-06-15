@@ -1,0 +1,36 @@
+/////////////////////////////////////////////////////////////////////
+NAME: Christopher Cross
+EMAIL: cc28@alumni.princeton.edu
+ID: 105238261
+
+/////////////////////////////////////////////////////////////////////
+Report:
+
+Server and Client implemented to specifications. The project has been
+tested on both my local MacOS and the departmental linux servers.
+
+Note on log format output:
+Carriage returns and line feed are translated to the
+space character (0x20) to keep the log to two lines, as
+stated in the specification.
+
+When conducting the sanity check, I recieved the following output:
+
+    SUBMISSION lab1b-105238261.tar.gz ... FAILS sanity check with 1 errors
+
+I believe this is due to the fact that the tarball contains two
+unexpected files:
+    
+    netconfig.sh
+    netdefs.h
+
+These are used to set the IP address of the server.
+
+
+Resources Used:
+Man pages
+project specifications and linked resources
+Previous CS118 project
+
+Useful Command:
+scp * classccr@lnxsrv09.seas.ucla.edu:/u/eng/class/classccr/CS111

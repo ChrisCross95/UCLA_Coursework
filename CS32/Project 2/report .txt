@@ -1,0 +1,282 @@
+﻿I chose to implement a doubly-linked list without a dummy node. Each node contains five variables: a next-pointer, a previous-pointer, and three variables containing information about each player. The nodes are variables of a private structure within the BballRoster class, which contains a head pointer and a tail pointer. I have chosen this implementation because it allowed me to reuse (with minor alterations) code written for a different assignment. The list is not circular. I also decided against implementing a player structure to avoid class composition difficulties; if each player had many more variables, I might have created a player structure. 
+
+
+The main obstacle I had to overcome was converting a singly-linked list to a doubly-linked list. 
+
+
+Pseudocode for renouncePlayer, joinRosters, signPlayer: 
+
+
+==========================       BballRoster::signPlayer     ==============================
+    
+Set traversePtr to head;
+ Declare  nextToLast Pointer (For a corner-case involving matching last names and different first names)
+    
+   If the Roster is empty
+        Insert player to front
+        Return true 
+    
+    Search through the roster 
+If there is a player with the same first and last name
+Do nothing and return false while
+    
+    If the player should go at the front of the list
+         Insert player to front
+        Return true 
+
+
+    If the player should go at the end of the list
+          Insert player to read
+        Return true 
+    
+  Search through the roster
+            If we encounter a player with the same last name already on the roster,
+                sort by first name
+                        If traversePtr points to the last pointer, save this value as nextToLast, (so
+                        that when we add another node at the end of the list, we can access these values)
+
+
+                    Dynamically allocate new node
+                Store values in new node 
+                    
+If we've reached the end of the list
+                                    perform the insertion using nexToLast's pointer values
+                Otherwise 
+perform the insertion using traversePtr’s pointer values
+                Return true
+                
+                If we have not we encounter a player with the same last name already on the roster,
+                sort by last name
+                if the player belongs between traversePtr and the next node 
+                    Dynamically allocate new node
+                Store values in new node 
+                perform the insertion using traversePtr’s pointer values
+                    return true
+
+
+Return false (control should not reach this return statement)
+
+
+
+
+==========================       BballRoster::renouncePlayer     ============================
+
+
+Set traversePtr to head 
+    
+If the player is not on the roster (or the roster is empty)
+        Return false 
+    
+     If the renounced player is first on the roster
+        traverse head by one
+        If there is more than one player on the roster
+        Make head’s previous pointer point to nullptr
+        delete traversePtr
+        return true
+    
+        If the renounced player is last on the roster
+traverse head by one
+        If there is more than one player on the roster
+        Make tail’s next pointer  point to nullptr
+                delete traversePtr
+                return true
+    
+    
+    Reset traversePtr to head 
+    
+    If the renounced player is somewhere in the middle of the roster
+        Search the roster
+                         If we are at the node we want to delete
+                        Give the next node’s previous-pointer this node’s previous pointer
+                        Give the previous node’s next pointer this node’s next pointer
+                                    delete traversePtr;
+                                    return true;
+    
+    return false (control should not reach this return statement)
+
+
+==================================   JoinRosters    =====================================
+    
+    Create a temporary Roster
+    
+   *Checking for various cases of aliasing*
+    If the first two arguments alias the same Roster
+        Assign one of them to bbJoined 
+    
+    if both arguments are empty rosters 
+            Assign bbJoined an empty roster if both arguments are empty rosters 
+
+
+    If either of the arguments is empty, 
+assign bbJoined the other roster 
+    
+    set sameNameDiffValFlag to false;
+    Iterate through the first roster 
+get info for each player;
+    if a player with the same First and Last name is on the second roster
+        If said player has a different value
+set sameNameDiffValFlag to true (do not add player) 
+ otherwise 
+add player to bbJoined. 
+If a player with the same first and last name is NOT on the second roster 
+add player to bbJoined
+
+
+    *We have already checked for matching names, so now we need only
+    add the names from the second roster that are not on the first roster* 
+           Iterate through the second roster 
+get info for each player;
+If a player with the same first and last name is NOT on the first roster 
+add player to bbJoined
+
+
+    Assign the newly-create temporary Roster to bbJoined Roster
+
+
+    return !sameNameDiffValFlag;
+
+
+
+
+=============== Testing ================
+
+
+    //Basic Tests//
+    BballRoster testRosterA, testRosterB;
+    
+    testRosterA.signPlayer("X", "Y", "1500000");  // signPlayer w/ empty roster
+    assert(testRosterA.rosterEmpty() == false); // signPlayer not empty w/ 1 player
+    assert(testRosterA.howManyPlayers() == 1);
+    assert(testRosterA.renouncePlayer("X", "Y") == true); // remove player from roster with one player
+    assert(testRosterA.rosterEmpty()); // returns true after a roster has BECOME empty
+    assert(testRosterA.signPlayer("X", "Y", "1500000") == true);
+    assert(testRosterA.signPlayer("X", "Y", "1500000") == false); //signPlayer returns false if player already on roster
+    assert(testRosterA.signOrResign("X", "Y", "1500000") == true); //signOrResign returns true w/ player already on roster
+    assert(testRosterA.howManyPlayers() == 1);  // signOrResign doesn't make duplicate players
+    assert(testRosterA.signPlayer("X", "X", "14000")); // signPlayer signs player w/ same first name
+    assert(testRosterA.signPlayer("Z", "X", "14000")); // signPlayer signs player w/ same last name
+    assert(testRosterA.howManyPlayers() == 3); //howManyPlayers works for multiple players
+    assert(testRosterA.signOrResign("Z", "Z", "0")); // signOrResign returns true w/ player not already on roster
+    assert(testRosterA.renouncePlayer("Z", "Z") == true); // remounce last player on roster
+    assert(testRosterA.renouncePlayer("X", "X") == true); // reounce first player on roster
+    assert(!testRosterA.playerOnRoster("X", "X")); // returns false when player is not on roster
+    assert(testRosterA.playerOnRoster("X", "Y")); // returns true when player is on roster
+    cerr << "Good" << endl;
+    // This section tests lookUpPlayer, choosePlayer, checkRoster, and joinRosters with
+    // realistic names. This section includes corner cases such as invalid assignment operations
+    // of the form x = x, and of the form x = y where y is an empty list. Due to the compositional
+    // nature of these functions, they also check the above functions (and also the copy constructor)
+    // using realistic names. Print statements verify alphabetic ordering.
+    // joinRosters function is explicitly checked for aliasing
+    BballRoster lakers;
+    lakers.signPlayer ("LeBron", "James", "6");
+    lakers.signPlayer ("Anthony", "Davis", "23");
+    lakers.signPlayer ("Kyle", "Kuzma", "0");
+    lakers.signPlayer ("Boogie", "Cousins", "15");
+    lakers.signPlayer ("Rajon", "Rondo", "8");
+    assert (lakers.signPlayer("Kyle", "Kuzma", "3") == false);
+    assert (lakers.howManyPlayers() == 5);
+    cerr << "All tests passed" << endl;
+    // Testing choosePlayer and howManyPlayers functionality 
+    for (int n = 0; n < lakers.howManyPlayers(); n++)
+    {
+        string first;
+        string last;
+        SomeType val;
+        lakers.choosePlayer (n, first, last, val);
+        cerr << first << " " << last << " " << val << endl;
+    }
+    BballRoster clippers;
+    clippers.signPlayer("Tyrone", "Wallace", "6.99");
+    assert(!clippers.playerOnRoster ("",""));       // empty string
+    clippers.signPlayer("Kawhi", "Leonard", "5.19");
+    clippers.signPlayer("", "", "4.00");           // signing player with empty string first and last name
+    assert(!clippers.signPlayer("", "", "4.43"));  // signing empty-string player w/ empty string player already on roster
+    clippers.signPlayer("Paul", "George", "4.7");
+    assert(clippers.playerOnRoster ("", ""));
+    cerr << clippers.howManyPlayers() << endl; 
+    clippers.renouncePlayer("Tyrone", "Wallace");
+    for (int n = 0; n < clippers.howManyPlayers(); n++)
+    {
+        string first;
+        string last;
+        SomeType val;
+        clippers.choosePlayer (n, first, last, val);
+        cerr << first << " " << last << " " << val << endl;
+    }
+    assert(clippers.howManyPlayers() == 3
+           && clippers.playerOnRoster("Kawhi", "Leonard")
+           && clippers.playerOnRoster ("Paul", "George")
+           && clippers.playerOnRoster ("", ""));
+    BballRoster testJoin, testJoin1, testJoin2;
+    joinRosters(lakers, clippers, testJoin);
+    for (int n = 0; n < testJoin.howManyPlayers(); n++)
+    {
+        string first;
+        string last;
+        SomeType val;
+        testJoin.choosePlayer (n, first, last, val);
+        cerr << first << " " << last << " " << val << endl;
+    }
+    cerr << "==================" << endl;
+    testJoin1 = lakers;
+    joinRosters(lakers, clippers, testJoin1);
+    for (int n = 0; n < testJoin1.howManyPlayers(); n++)
+    {
+        string first;
+        string last;
+        SomeType val;
+        testJoin1.choosePlayer (n, first, last, val);
+        cerr << first << " " << last << " " << val << endl;
+    }
+    cerr << "==================" << endl;
+    // The following tests joinRoster function in the case
+    // where on of the first two arguments is an empty roster
+    BballRoster emptyRoster;
+    joinRosters(lakers, emptyRoster, clippers);
+    for (int n = 0; n < clippers.howManyPlayers(); n++)
+    {
+        string first;
+        string last;
+        SomeType val;
+        clippers.choosePlayer (n, first, last, val);
+        cerr << first << " " << last << " " << val << endl;
+    }
+    cerr << "==================" << endl;
+    assert(clippers.howManyPlayers() == 5);
+    // When both arguments to Join Roster are empty, this also tests
+    BballRoster emptyRoster1;
+    joinRosters(emptyRoster, emptyRoster1, clippers);
+    for (int n = 0; n < clippers.howManyPlayers(); n++)
+    {
+        string first;
+        string last;
+        SomeType val;
+        clippers.choosePlayer (n, first, last, val);
+        cerr << first << " " << last << " " << val << endl;
+    }
+    cerr << "==================" << endl;
+    assert(clippers.howManyPlayers() == 0);
+    BballRoster A, B;
+    A.signPlayer("X", "Y", "10");
+    B.signPlayer("X", "Y", "11");
+    assert(joinRosters(A, B, emptyRoster) == false && emptyRoster.howManyPlayers() == 0);
+    BballRoster bucks, bbResult;
+    bucks.signPlayer("Greek", "Freak", "34");
+    bucks.signPlayer("Brook", "Lopez", "11");
+    bucks.signPlayer("Robin", "Lopez", "8");
+    checkRoster("*", "Lopez", bucks, bbResult); // wildcarding first name
+    assert(bbResult.howManyPlayers() == 2);
+    BballRoster hornets;
+    hornets.signPlayer("Chris", "Chiozza", "2");
+    hornets.signPlayer("James", "Harden", "13");
+    hornets.signPlayer("Chris", "Paul", "3");
+    hornets.signPlayer("Chris", "", "14");
+    checkRoster("Chris", "*", hornets, bbResult); // wildcarding last name
+    assert(bbResult.howManyPlayers() == 3);
+    checkRoster("*", "*", hornets, bbResult); // wildcarding last and first name
+    assert(bbResult.howManyPlayers() == 4);
+    checkRoster("*", "*", emptyRoster, bbResult); // wildcarding empty roster
+    assert(bbResult.howManyPlayers() == 0); 
+    cerr << "Good!" << endl;
+    cerr << "All Tests Passed!" << endl;

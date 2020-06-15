@@ -1,0 +1,3 @@
+Hooked allocator frame not found, returning empty trace
+Testing empty allocation
+FAIL tcmalloc_debug_unittest (exit status: 134)

@@ -1,0 +1,2 @@
+src/central_freelist.cc:330] tcmalloc: allocation failed 8192 
+FAIL tcmalloc_minimal_unittest (exit status: 137)

@@ -1,0 +1,62 @@
+NAME: Christopher Cross
+EMAIL: cc28@alumni.princeton.edu
+ID: 105238261
+
+
+
+Development Log: 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Wednesday Apr 8: 
+
+What I did:
+Deep refactor of code. Much clearer, briefer, and reliable. 
+Removed scaled buffer in favor of 256-byte constant-sized
+buffer whose contents is rewritten after every call to read().
+Implemented while-for-switch control structure to process 
+user input. 
+
+What needs to be done: 
+Output from bash goes straight to the terminal. This suggets
+that the child process's standard streams are not being
+redirected to the appropriate pipes. setstdstreams() needs
+to be investigated. 
+
+==============================================================
+
+Wednesday Apr 9:
+
+What I did:
+Solved I/O redirection issue. Issue was caused by duplicate
+calls to pipe() on the same pipe-array. Modified macros to
+be more descriptive: pipeToChild() and pipeFromChild(). 
+Implemented polling solution for reading stdin and shell 
+pipe. Implemented threaded piperead() call. Control
+characters functioning as normal. Shell output formatted...
+acceptably. 
+
+What needs to be done:
+Investigate complication warnings  
+Investigate pause between ^C from terminal and exit
+Makefile 
+Testing
+
+
+==============================================================
+
+Wednesday Apr 10:
+
+What I did:
+Partial functional decomposition of server-sde logic. 
+Code-paste-reporposed previous server-side code. 
+Implemented forwarding logic with intra-process pipe. <--- Not as easy as you'd think :)
+
+1. What needs to be done: 
+2. Implement client-side API
+3. Review c vs. c++ use of socket.h
+4. Enforce atomicity on all reads/writes to pipes and buffers.
+5. Build makefile. 
+6. Investigate pause between ^C from terminal and exit
+7. Program-state analysis. 
+	a. Investigate complication warnings
+ 
+(You're no pretender)

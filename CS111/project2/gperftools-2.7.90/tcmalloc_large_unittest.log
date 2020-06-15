@@ -1,0 +1,7 @@
+Test malloc(0) x 1024
+Test small malloc
+Test malloc(0 - N)
+Test malloc(0 - 1048576 - N)
+Test malloc(max/2 +- N)
+PASS
+PASS tcmalloc_large_unittest (exit status: 0)

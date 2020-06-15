@@ -1,0 +1,30 @@
+
+
+
+2. Program-state analysis.
+    a. Investigate pause between ^C from terminal and exit
+
+
+
+start_duplex_tty() and transmit_to_client() are
+threads and so have prviate stacks:
+
+The local variables in the main function are:
+    1.) int sock_listen,
+    2.) int sock_connect;
+    3.) struct sockaddr_in my_addr;
+    4.) struct sockaddr_in their_addr;
+    5.) unsigned int sin_size <--- This local variable should be refactored out
+
+
+Questionable design:
+First, create a thread to execute start_duplex_tty()
+In a seperate thread, start_duplex_tty() calls echo_and_forwrd().
+However, echo_and_forward() contains a while(true) loop that
+
+
+The we need to send() the data to the client as soon as we read it from
+the pipe. It makes no sense to have a seperate thread for
+reading the pipe and one for sending the data to the client 
+
+

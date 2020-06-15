@@ -1,0 +1,32 @@
+-n Running death test 0...
+OK
+-n Running death test 1...
+OK
+-n Running death test 2...
+OK
+-n Running death test 3...
+OK
+-n Running death test 4...
+OK
+-n Running death test 5...
+FAILED
+-n Running death test 6...
+done with death tests
+-n Running non-death tests...
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+Hooked allocator frame not found, returning empty trace
+./debugallocation_test.sh: line 91: 97265 Abort trap: 6           "$DEBUGALLOCATION_TEST"
+FAILED
+Failed with 2 failures
+FAIL debugallocation_test.sh (exit status: 2)

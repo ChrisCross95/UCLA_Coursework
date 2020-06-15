@@ -1,0 +1,92 @@
+
+>>> WARNING <<<
+This test looks at timing information to determine correctness.
+If your system is loaded, the test may spuriously fail.
+If the test does fail with an 'Actual times' error, try running again.
+
+PROFILE: interrupts/evictions/bytes = 43/0/2360
+PROFILE: interrupts/evictions/bytes = 68/3/2976
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler1_unittest.
+Using local file /tmp/profile_info/p1.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler1_unittest.
+Using local file /tmp/profile_info/p2.
+expr: syntax error
+expr: syntax error
+
+>>> profile on /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler1_unittest vs /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler1_unittest with multiplier 2 failed:
+Actual times (in profiling units) were '' vs. ''
+
+PROFILE: interrupts/evictions/bytes = 43/4/2040
+PROFILE: interrupts/evictions/bytes = 64/12/2264
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler2_unittest.
+Using local file /tmp/profile_info/p3.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler2_unittest.
+Using local file /tmp/profile_info/p4.
+expr: syntax error
+expr: syntax error
+
+>>> profile on /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler2_unittest vs /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler2_unittest with multiplier 2 failed:
+Actual times (in profiling units) were '' vs. ''
+
+PROFILE: interrupts/evictions/bytes = 38/6/1840
+PROFILE: interrupts/evictions/bytes = 61/10/2232
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler2_unittest.
+Using local file /tmp/profile_info/p5.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler2_unittest.
+Using local file /tmp/profile_info/p6.
+expr: syntax error
+expr: syntax error
+
+>>> profile on /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler2_unittest vs /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler2_unittest with multiplier 2 failed:
+Actual times (in profiling units) were '' vs. ''
+
+PROFILE: interrupts/evictions/bytes = 44/3/3064
+PROFILE: interrupts/evictions/bytes = 65/11/4608
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler3_unittest.
+Using local file /tmp/profile_info/p5b.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler3_unittest.
+Using local file /tmp/profile_info/p5c.
+PROFILE: interrupts/evictions/bytes = 58/3/3392
+PROFILE: interrupts/evictions/bytes = 83/11/4248
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler3_unittest.
+Using local file /tmp/profile_info/p7.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler3_unittest.
+Using local file /tmp/profile_info/p8.
+PROFILE: interrupts/evictions/bytes = 59/1/2832
+PROFILE: interrupts/evictions/bytes = 87/12/3936
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler4_unittest.
+Using local file /tmp/profile_info/p9.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler4_unittest.
+Using local file /tmp/profile_info/p10.
+PROFILE: interrupts/evictions/bytes = 73/6/4512
+PROFILE: interrupts/evictions/bytes = 100/18/5224
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler4_unittest.
+Using local file /tmp/profile_info/p9.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler4_unittest.
+Using local file /tmp/profile_info/p10.
+PROFILE: interrupts/evictions/bytes = 77/9/4448
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler4_unittest.
+Using local file /tmp/profile_info/p11.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler4_unittest.
+Using local file /tmp/profile_info/p11.
+PROFILE: interrupts/evictions/bytes = 37/0/1712
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler1_unittest.
+Using local file /tmp/profile_info/p12.
+Using local file /tmp/profile_info/p13.
+Using local file /tmp/profile_info/p13.
+PROFILE: interrupts/evictions/bytes = 58/1/3104
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler3_unittest.
+Using local file /tmp/profile_info/p14.
+Using local file /tmp/profile_info/p15.
+Using local file /tmp/profile_info/p15.
+PROFILE: interrupts/evictions/bytes = 80/0/2984
+PROFILE: interrupts/evictions/bytes = 137/3/4736
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler3_unittest.
+Using local file /tmp/profile_info/p16.
+Using local file /Users/majestikmind/CS_Material/CS111/project2/gperftools-2.7.90/.libs/profiler3_unittest.
+Using local file /tmp/profile_info/p17.
+PROFILE: interrupts/evictions/bytes = 18/0/1360
+PROFILE: interrupts/evictions/bytes = 18/0/1384
+PROFILE: interrupts/evictions/bytes = 19/0/1480
+Tests finished with 3 failures
+FAIL profiler_unittest.sh (exit status: 3)

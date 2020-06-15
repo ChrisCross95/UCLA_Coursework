@@ -1,0 +1,39 @@
+default: lab2_add lab2_list
+
+lab2_add: lab2_add.o
+	gcc -Wall -Wextra -pthread lab2_add.o -o lab2_add
+
+lab2_add.o: lab2_add.c
+	gcc -g -c -lrt lab2_add.c
+
+lab2_list: lab2_list.o SortedList.o
+	gcc -g -Wall -Wextra -pthread lab2_list.o SortedList.o -o lab2_list
+
+lab2_list.o: lab2_list.c SortedList.c
+	gcc -g -c -lrt lab2_list.c
+	
+SortedList.o: SortedList.c SortedList.h
+	gcc -g -c SortedList.c
+	
+tests: default
+	rm -f *.csv
+	chmod +x listtests.sh
+	chmod +x addtests.sh
+
+	-./listtests.sh
+	-./addtests.sh
+
+graphs:
+	chmod +x lab2_add.gp
+	chmod +x lab2_list.gp
+	./lab2_add.gp
+	./lab2_list.gp
+
+clean:
+	rm -f lab2_add lab2_list *.o *.tar.gz
+
+dist: tests graphs clean
+	tar -cvzf lab2a-105238261.tar.gz \
+	lab2_add.c lab2_list.c listtests.sh addtests.sh \
+	*.png *.csv *.gp README Makefile \
+	SortedList.c SortedList.h

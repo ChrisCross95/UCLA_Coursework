@@ -1,0 +1,124 @@
+
+Christopher Cross
+Project 3 Report
+Friday, Aug 2dn, 2019
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+o A brief description of notable obstacles I overcame:
+    There were two principal obstacles I overcame. First, I needed to generate all unique
+    permuatations of a given string. I was stalked until I decided to develop an iteartive
+    algorthim, which I then conversed to a recursive form. Second, I need to distinguish between
+    paramaters to be passed-by-reference and passed-by-value.
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+o A list of the test data that could be used to thoroughly test my program;
+Copy-Pasting the following code into a main routine with appropriately-linked
+files will test each component of my project
+
+// *************************** Tests for recBlends ************************************
+string word1 = "1";
+string word2 = "12";
+string word3 = "123";
+string word4 = "1234";
+string dict[] = {};
+
+string results[] = {};
+
+
+* Note: recBlends uses cerr to print each uniquer permutation to the console,
+    making visual confirmation for small words (length > 6) feasible.
+    mathematical induction supports verification for larger words
+recBlends(word1, dict, 0, results); //tests recBlends with 1-letter word
+recBlends(word2, dict, 0, results); //tests recBlends with 2-letter word
+recBlends(word3, dict, 0, results); //tests recBlends with 3-letter word
+recBlends(word3, dict, 0, results); //tests recBlends with 4-letter word
+recBlends(word3, dict, 0, results); //tests recBlends with empty string
+
+
+// ****************** Tests for checkAgainstResults and checkAgainstDict ******************
+
+string candidateA = "";
+string candidateB = "ABC";
+string candidateC = "AbC";
+string candidateD = "XYZ";
+string testDict[] = {
+"A", "a", "AB", "Abc",
+"AbC", "ABC", "Xyz", ""
+};
+
+string testResults [5];
+testResults[0] = "ABC";
+string fullTestResults [1];
+testResults[0] = "ABC";
+int matches = 1;
+
+// Normal case of adding a match, with candidate being empty string
+checkAgainstResults(candidateA, testResults, matches, 0, testDict, 8);
+assert(testResults[1] == "" && matches == 2);
+
+// There is a match, but it is already in testResults
+assert(checkAgainstResults(candidateB, testResults, matches, 0, testDict, 8) == 0);
+
+// Normal case of adding a non-empty string
+checkAgainstResults(candidateC, testResults, matches, 0, testDict, 8);
+assert(testResults[2] == "AbC" && matches == 3);
+
+// Candidate is not in dictionary
+assert(checkAgainstResults(candidateD, testResults, matches, 0, testDict, 8) == 0);
+
+// Set matches to MAXRESULTS to see that checkAgainstResults returns 0 when result dictionary is already full 
+assert(checkAgainstResults(candidateA, testResults, matches = 20, 1, testDict, 8) == 0);
+
+
+
+
+// ************************************ Tests for LoadWords *********************************************
+
+
+// Performs element-wise check, prints array and data
+// as two parallel arrays in console, counts mismatches
+
+ifstream dictfile;         // file containing the list of words
+int nwords;                // number of words read from dictionary
+string word;
+
+
+dictfile.open("words.txt");
+if (!dictfile) {
+    cout << "File not found!" << endl;
+    return (1);
+}
+
+nwords = loadWords(dictfile, dict);
+cerr << nwords << endl;
+dictfile.close();
+int mismatches = 0;
+ifstream testStream;
+testStream.open("words.txt");
+
+for (int i = 0; i < nwords; i++) {
+    string loadedWord;
+    testStream >> loadedWord;
+    cerr << loadedWord <<  "  " << dict[i] << endl;   // Print newly-read in string with stored string previously read-in
+    if (loadedWord != dict[i]) {
+        mismatches++;
+        cerr << " *** File-reading error detected ***" << endl;
+    }
+}
+assert(mismatches == 0);
+cerr << "Element-wise check complete." << endl;
+cerr << mismatches << " mismatches detected."  << endl;
+
+
+// ************************************ Tests for showResults *********************************************
+
+
+//visual confirmation of output required
+string dummyyarr1[] = {"one", "two", "three"};
+showResults(dummyyarr1, 3);     // n results: n > 1
+string dummyyarr2[] = {"one"};
+showResults(dummyyarr2, 1);     // 1 result
+string dummyyarr3[0];
+showResults(dummyyarr3, 0);     // 0 results
+
+

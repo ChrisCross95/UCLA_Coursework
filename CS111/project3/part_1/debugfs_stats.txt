@@ -1,0 +1,56 @@
+
+
+Information about superblock and group descriptor  
+Command: show_super_stats -h
+//////////////////////////////////////////////////////////////////////////////
+Filesystem volume name:   <none>
+Last mounted on:          /tmp/test.32012
+Filesystem UUID:          d919e797-da10-426c-a5cf-f926e82a9a81
+Filesystem magic number:  0xEF53
+Filesystem revision #:    1 (dynamic)
+Filesystem features:      ext_attr dir_index filetype sparse_super large_file
+Filesystem flags:         signed_directory_hash 
+Default mount options:    user_xattr acl
+Filesystem state:         clean
+Errors behavior:          Continue
+Filesystem OS type:       Linux
+Inode count:              1000
+Block count:              1024
+Reserved block count:     0
+Free blocks:              513
+Free inodes:              567
+First block:              1
+Block size:               1024
+Fragment size:            1024
+Blocks per group:         8192
+Fragments per group:      8192
+Inodes per group:         1000
+Inode blocks per group:   125
+Filesystem created:       Fri May 15 22:10:44 2020
+Last mount time:          Fri May 15 22:10:51 2020
+Last write time:          Fri May 15 22:10:52 2020
+Mount count:              1
+Maximum mount count:      -1
+Last checked:             Fri May 15 22:10:44 2020
+Check interval:           0 (<none>)
+Lifetime writes:          429 kB
+Reserved blocks uid:      0 (user root)
+Reserved blocks gid:      0 (group root)
+First inode:              11
+Inode size:               128
+Default directory hash:   half_md4
+Directory Hash Seed:      012007d6-2b89-46a5-97f9-f1c3a804c98b
+Directories:              39
+ Group  0: block bitmap at 3, inode bitmap at 4, inode table at 5
+           513 free blocks, 567 free inodes, 39 used directories
+/////////////////////////////////////////////////////////////////////////////
+
+Information about allocated and deallocated blocks can be obtained 
+with the following command: testb 1 1023
+
+////////////////////////////////////////////////////////////////////////////
+
+I'm not sure if there's a way to systematically check the allocation 
+status of each inode, but stepping through the outputed inodes with 
+testi <filespec> suggests that the implementation is correct. 
+

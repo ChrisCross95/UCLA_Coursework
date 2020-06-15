@@ -1,0 +1,2 @@
+Testing empty allocation
+FAIL tcmalloc_minimal_debug_unittest (exit status: 134)

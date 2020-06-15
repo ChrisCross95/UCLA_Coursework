@@ -1,0 +1,73 @@
+Last login: Fri Oct 18 20:26:08 on ttys000
+vpn-128-97-244-65:~ majestikmind$ ssh classccr@cs33.seas.ucla.edu
+classccr@cs33.seas.ucla.edu's password: 
+Last login: Fri Oct 18 20:26:20 2019 from vpn-128-97-244-65.host.ucla.edu
+*****************************************************************************
+                        lnxsrv06.seas.ucla.edu RHEL 7
+*****************************************************************************
+
+	* User processes older than 36 hours will be cleaned up
+
+*****************************************************************************
+*****************************************************************************
+* SEASnet Computing Access                                                  *
+*                                                                           *
+* Priority is given both on the servers and in the student labs to those    *
+* students doing coursework. Computing support for research is provided by  *
+* each department.                                                          *
+*****************************************************************************
+* For assistance please contact help@seas.ucla.edu or call 206-6864.        *
+*****************************************************************************
+[classccr@lnxsrv06 ~]$ ls
+coreutils              crypt.cpp  CS35L    Documents  perl5
+coreutils-8.29.tar.xz  CS33       Desktop  Downloads  WINDOWS
+[classccr@lnxsrv06 ~]$ cd CS33
+[classccr@lnxsrv06 ~/CS33]$ ls
+bomb295  datalab-handout  tar
+[classccr@lnxsrv06 ~/CS33]$ cd bomb295
+[classccr@lnxsrv06 ~/CS33/bomb295]$ ls
+ bomb   bomb.c  '#codefile.txt#'   codefile.txt   README
+[classccr@lnxsrv06 ~/CS33/bomb295]$ vim '
+bomb            #codefile.txt#  README          
+bomb.c          codefile.txt    
+[classccr@lnxsrv06 ~/CS33/bomb295]$ vim codefile.txt
+
+0000000000400b40 <write@plt>:
+  400b40:       ff 25 fa 34 20 00       jmpq   *0x2034fa(%rip)        # 604040 <_GLOBAL_OFFSET_TABLE_+0x40>
+  400b46:       68 05 00 00 00          pushq  $0x5
+  400b4b:       e9 90 ff ff ff          jmpq   400ae0 <_init+0x28>
+
+0000000000400b50 <printf@plt>:
+  400b50:       ff 25 f2 34 20 00       jmpq   *0x2034f2(%rip)        # 604048 <_GLOBAL_OFFSET_TABLE_+0x48>
+  400b56:       68 06 00 00 00          pushq  $0x6
+  400b5b:       e9 80 ff ff ff          jmpq   400ae0 <_init+0x28>
+
+0000000000400b60 <alarm@plt>:
+  400b60:       ff 25 ea 34 20 00       jmpq   *0x2034ea(%rip)        # 604050 <_GLOBAL_OFFSET_TABLE_+0x50>
+  400b66:       68 07 00 00 00          pushq  $0x7
+  400b6b:       e9 70 ff ff ff          jmpq   400ae0 <_init+0x28>
+
+0000000000400b70 <close@plt>:
+  400b70:       ff 25 e2 34 20 00       jmpq   *0x2034e2(%rip)        # 604058 <_GLOBAL_OFFSET_TABLE_+0x58>
+  400b76:       68 08 00 00 00          pushq  $0x8
+  400b7b:       e9 60 ff ff ff          jmpq   400ae0 <_init+0x28>
+
+0000000000400b80 <read@plt>:
+  400b80:       ff 25 da 34 20 00       jmpq   *0x2034da(%rip)        # 604060 <_GLOBAL_OFFSET_TABLE_+0x60>
+  400b86:       68 09 00 00 00          pushq  $0x9
+  400b8b:       e9 50 ff ff ff          jmpq   400ae0 <_init+0x28>
+
+0000000000400b90 <__libc_start_main@plt>:
+  400b90:       ff 25 d2 34 20 00       jmpq   *0x2034d2(%rip)        # 604068 <_GLOBAL_OFFSET_TABLE_+0x68>
+  400b96:       68 0a 00 00 00          pushq  $0xa
+  400b9b:       e9 40 ff ff ff          jmpq   400ae0 <_init+0x28>
+
+0000000000400ba0 <fgets@plt>:
+  400ba0:       ff 25 ca 34 20 00       jmpq   *0x2034ca(%rip)        # 604070 <_GLOBAL_OFFSET_TABLE_+0x70>
+  400ba6:       68 0b 00 00 00          pushq  $0xb
+  400bab:       e9 30 ff ff ff          jmpq   400ae0 <_init+0x28>
+
+0000000000400bb0 <signal@plt>:
+  400bb0:       ff 25 c2 34 20 00       jmpq   *0x2034c2(%rip)        # 604078 <_GLOBAL_OFFSET_TABLE_+0x78>
+  400bb6:       68 0c 00 00 00          pushq  $0xc
+                                                                                                                85,3           2%

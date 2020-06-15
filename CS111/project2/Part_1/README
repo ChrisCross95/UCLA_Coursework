@@ -1,0 +1,134 @@
+NAME: Christopher Cross
+EMAIL: cc28@alumni.princeton.edu
+ID: 105238261
+
+
+///////////////////////////////////////////////////////////////////////
+PART 1 ANALYSIS
+///////////////////////////////////////////////////////////////////////
+
+Suprisingly, it takes only 2-3 threads to consistently result in 
+failure. However, failures only occur with a high number of
+iterations, at least a 1000. 
+
+
+QUESTION 2.1.1 - causing conflicts:
+Why does it take many iterations before errors are seen?
+It takes many iterations before errors are seen because errors are
+caused by uncorrected race conditions. To observe a race condition,
+a thread must be interrupted while it is in a critical section. The
+native system scheduler
+Why does a significantly smaller number of iterations so seldom fail?
+A significantly smaller number of interations so seldom fails because
+there are fewer opprotunities for the OS to interrupt threads at the
+right time to corrupt shared memory. 
+
+QUESTION 2.1.2 - cost of yielding:
+Why are the --yield runs so much slower?
+--yield runs are slower becuase each thread has to relinquish the CPU every time it 
+calls add(). 
+Where is the additional time going?
+Per the man pages: sched_yield() causes the calling thread to relinquish the CPU. 
+The thread is moved to the end of the queue for its static priority and a new 
+thread gets to run. The additional time is spent doing context switches (saving and 
+swapping register values, etc.). 
+Is it possible to get valid per-operation timings if we are using the --yield option?
+It is not possible to get a valid per-operation timing if we use the --yield option. 
+If so, explain how. If not, explain why not.
+We cannot get a valid per-operation timing because any central tendancy will be
+skewed by the overheads associated with the extra yields, which are directly related
+to the number of threads and the number of iterations. 
+ 
+QUESTION 2.1.3 - measurement errors:
+Why does the average cost per operation drop with increasing iterations?
+the avearge cost per operations drops with increasing iterations for the
+following reason: There is an inital overhead assocated with thread
+creation -- setting up its private stack, program counter, registers, and
+recording an entry in a thread control block. As the number of iterations
+increases, the initial cost is distributed over more and more operations,
+since the thread is only created once. 
+If the cost per iteration is a function of the number of iterations, how do 
+we know how many iterations to run (or what the "correct" cost is)? 
+Consider a very basic function that describes the per-operation cost:
+ 
+	ƒ(n_iters) = (run_time + setup_time) / n_iters
+	ƒ(n_iters) = (run_time / n_iters) + (setup_time / n_iters)
+
+Note that here setup_time is a constant and run_time is directly
+related to n_iters.  
+So, as n_iters --> ∞, (setup_time / n_iters) --> 0. So, the limit
+of ƒ(n_iters) as n_iters --> ∞ is the "correct" cost. However, for
+some sufficiently large value of n_iters, ƒ(n_iters) will be a very
+good approximation of the true per-operation cost.
+
+QUESTION 2.1.4 - costs of serialization:
+Why do all of the options perform similarly for low numbers of threads?
+All options perform similiarly for low numbers of threads because
+fewer threads means a lower probability that multiple threads will attempt
+to access a critial section at the same time. Therefore, there is less cost
+associated with syncronization, so performance is relatively uniform the all
+options.
+Why do the three protected operations slow down as the number of threads rises?
+The three protected operations slow down as the number of threads rises because
+as the number of threads rises, the probability that multiple threads will
+attempt to access a critical section also rises. This means that the costs
+associated with syncronization (checking locks and mutexes, etc. ) also rises.
+These 'costs' are can be measured in CPU cycles, and CPU cycles take time. So
+the protected operations slow down. 
+
+
+///////////////////////////////////////////////////////////////////////
+PART 2 ANALYSIS
+///////////////////////////////////////////////////////////////////////
+
+Based on the results, it appears that 4 threads are required to
+consistently demonstrate the problem. This is based on the lack of
+csv output for runs with 4+ threads.
+
+QUESTION 2.2.1 - scalability of Mutex
+Compare the variation in time per mutex-protected operation vs the
+number of threads in Part-1 (adds) and Part-2 (sorted lists).
+The scales are log-linear, so the variation is greater in Part-2
+(lists) than in Part-1 (add).
+
+Comment on the general shapes of the curves, and explain why they have this shape.
+Both curves increase with increasing threads. This is becuase thread
+count is directly related to synchronization overhead: more threads means
+more conflicting accesses of critical sections, and therefore more CPU cycles
+spent attempting to acquire locks.
+
+Comment on the relative rates of increase and differences in the shapes
+of the curves, and offer an explanation for these differences.
+The rate of increase for the curve in Part-2 is much greater than that
+in Part-1. In fact, the cost doubles for the curve in Part-2 until
+~100ns. Further, whereas the cost curve for Part-1 flattens
+around 100ns, the cost curve for Part-2 continues to increase
+linearly with the number of threads. The reason the shapes of these
+curves differ is that the implementation of synchronized inserts and
+lookups/deletes requires a thread to acquire a (the only!!) look for
+each iteration of a for-loop. This rapidly increases synchronization
+overheads because threads are competitng with each other more frequently.
+
+QUESTION 2.2.2 - scalability of spin locks
+
+Compare the variation in time per protected operation vs the number of
+threads for list operations protected by Mutex vs Spin locks.
+Again, the scales are log-linear, so the variation in Spin-lock
+protected costs is much greater than the variation for mutex
+protected costs. 
+
+Comment on the general shapes of the curves, and explain why they have
+this shape.
+The curve for spin-lock costs is much steeper than that for mutex costs:
+at 16 threads, the spin lock cost is around 1000ns per operation, whereas
+the mutex cost hovers just north of 100ns.
+
+Comment on the relative rates of increase and differences in the shapes
+of the curves, and offer an explanation for these differences.
+Clearly, the rate of increase for spin-lock protection is much greater
+than that for mutext protection. This is because spin-lock protection
+causes the threads to spin, i.e. waste CPU cycles without doing real work.
+Spinning threads have to be scheduled and interrupted by the OS, which
+actually increases the time it takes for the lock-holding thread to
+complete its task. This all contributes the the exponential cost growth
+for spin locks. 

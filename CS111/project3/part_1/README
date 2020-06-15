@@ -1,0 +1,40 @@
+NAME: Christopher Cross, Nikita Siahaan
+EMAIL: cc28@alumni.princeton.edu, niksiahaan@ucla.edu
+ID: 105238261, 405150445
+
+TODO: Review documentation to see what caused off-by-one error (resolved)
+TODO: Investigate why block pointers are not printing correctly (unresolved)
+
+inode_tbl_ptr[i].i_block[i] was the trouble 
+
+
+Notes on EXT2 Filesystem: 
+
+The Second Extended Filesystem:
+	blocks: the basic unit of storage 
+	inodes: the mean of keeping track of files and system objects
+	block groups: logically split the disk into more manageable sections (partitions)
+	directories: provide a hierarchical organization of files (directory tree)
+	block and inode bitmaps: keep track of allocated blocks and inodes
+	superblock: define the parameters of the file system and its overall state
+
+	There's an inode for each block. Blocks are stored in block groups to reduce
+	seek time and fragmentation. Information about each block group is kept in a 
+	descriptor table stored in the block(s) immediately after the superblock.
+	Since each bitmap is limited to a single block, this means that the maximum 
+	size of a block group is 8 times the size of a block.
+
+	Each object in the filesystem is represented by an inode. The inode structure
+	contains pointers to the filesystem blocks which contain the data held in the 
+	object and all of the metadata about an object except its name.
+
+	All the inodes are stored in inode tables, with one inode table per block group.
+	
+
+	The superblock contains all the information about the configuration of the 
+	filesystem. The primary copy of the superblock is stored at an offset of 1024
+	bytes from the start of the device
+
+	For all symlink shorter than 60 bytes long, the data is stored within the
+	inode itself; it uses the fields which would normally be used to store the
+	pointers to data blocks.

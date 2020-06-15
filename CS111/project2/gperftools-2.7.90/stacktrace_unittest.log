@@ -1,0 +1,20 @@
+Obtained 9 stack frames.
+Obtained 9 stack frames.
+0   stacktrace_unittest                 0x000000010a57f395 _ZN12_GLOBAL__N_119CheckStackTraceLeafEv + 149 0x10a57f395
+1   stacktrace_unittest                 0x000000010a57f295 _ZN12_GLOBAL__N_116CheckStackTrace4Ei + 117 0x10a57f295
+2   stacktrace_unittest                 0x000000010a57f1b7 _ZN12_GLOBAL__N_116CheckStackTrace3Ei + 119 0x10a57f1b7
+3   stacktrace_unittest                 0x000000010a57f0d7 _ZN12_GLOBAL__N_116CheckStackTrace2Ei + 119 0x10a57f0d7
+4   stacktrace_unittest                 0x000000010a57eff7 _ZN12_GLOBAL__N_116CheckStackTrace1Ei + 119 0x10a57eff7
+5   stacktrace_unittest                 0x000000010a57ef37 _ZN12_GLOBAL__N_115CheckStackTraceEi + 71 0x10a57ef37
+6   stacktrace_unittest                 0x000000010a57eedb main + 11 0x10a57eedb
+7   libdyld.dylib                       0x00007fff721693d5 start + 1 0x7fff721693d5
+8   ???                                 0x0000000000000001 0x0 + 1 0x1
+CheckStackTrace() addr: 0x10a57eef0
+Backtrace 0: expected: 0x10a57f385..0x10a57f622  actual: 0x10a57f395 ... OK
+Backtrace 1: expected: 0x10a57f289..0x10a57f29b  actual: 0x10a57f295 ... OK
+Backtrace 2: expected: 0x10a57f1a9..0x10a57f1c0  actual: 0x10a57f1b7 ... OK
+Backtrace 3: expected: 0x10a57f0c9..0x10a57f0e0  actual: 0x10a57f0d7 ... OK
+Backtrace 4: expected: 0x10a57efe9..0x10a57f000  actual: 0x10a57eff7 ... OK
+Backtrace 5: expected: 0x10a57ef1f..0x10a57ef40  actual: 0x10a57ef37 ... OK
+PASS
+PASS stacktrace_unittest (exit status: 0)

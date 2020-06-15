@@ -1,0 +1,16 @@
+SENT 13 bytes: ls   clear  
+RECEIVED 0 bytes: 
+SENT 14 bytes: ls clear ls 
+RECEIVED 395 bytes: Makefile Program State Analysis README backup constants.h lab1b-client lab1b-client.c lab1b-client.o lab1b-server lab1b-server.c lab1b-server.o lg netconfig.sh netdefs.h serverbkup.c test_dir [3J[H[2JMakefile Program State Analysis README backup constants.h lab1b-client lab1b-client.c lab1b-client.o lab1b-server lab1b-server.c lab1b-server.o lg netconfig.sh netdefs.h serverbkup.c test_dir 
+SENT 14 bytes: ls  clear  
+RECEIVED 0 bytes: 
+SENT 18 bytes: ls   clea  clear  
+RECEIVED 0 bytes: 
+SENT 4 bytes: ls  
+RECEIVED 0 bytes: 
+SENT 12 bytes: ls  clear  
+RECEIVED 0 bytes: 
+SENT 10 bytes: ls clear 
+RECEIVED 203 bytes: Makefile Program State Analysis README backup constants.h lab1b-client lab1b-client.c lab1b-client.o lab1b-server lab1b-server.c lab1b-server.o lg netconfig.sh netdefs.h serverbkup.c test_dir [3J[H[2J
+SENT 0 bytes: 
+RECEIVED 0 bytes: 

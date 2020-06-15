@@ -1,0 +1,7 @@
+
+Compile the source code file into an executable binary file by issuing the following
+command.
+
+$ gcc -lmraa -o check_mraa_version check_mraa_version.c
+
+The -lmraa flag is required in order to access the functions provided by MRAA.

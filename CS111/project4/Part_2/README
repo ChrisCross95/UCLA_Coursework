@@ -1,0 +1,8 @@
+NAME: Christopher Cross
+EMAIL: cc28@alumni.princeton.edu
+ID: 105238261
+
+Contents: 
+lab4b.c  - a C-source file to generate temperature reports for sensory
+Makefile - a program to build and test the application
+README   - this file 

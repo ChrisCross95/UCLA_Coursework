@@ -1,0 +1,194 @@
+Iteration: 200 of 1000
+------------------------------------------------
+MALLOC:        1048600 (    1.0 MiB) Bytes in use by application
+MALLOC: +       720896 (    0.7 MiB) Bytes in page heap freelist
+MALLOC: +       327392 (    0.3 MiB) Bytes in central cache freelist
+MALLOC: +      1048576 (    1.0 MiB) Bytes in transfer cache freelist
+MALLOC: +          264 (    0.0 MiB) Bytes in thread cache freelists
+MALLOC: +      2621440 (    2.5 MiB) Bytes in malloc metadata
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Actual memory used (physical + swap)
+MALLOC: +            0 (    0.0 MiB) Bytes released to OS (aka unmapped)
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Virtual address space used
+MALLOC:
+MALLOC:            179              Spans in use
+MALLOC:              1              Thread heaps in use
+MALLOC:           8192              Tcmalloc page size
+------------------------------------------------
+Call ReleaseFreeMemory() to release freelist memory to the OS (via madvise()).
+Bytes released to the OS take up virtual address space but no physical memory.
+------------------------------------------------
+Total size of freelists for per-thread caches,
+transfer cache, and central cache, by size class
+------------------------------------------------
+class   1 [        8 bytes ] :     1023 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   2 [       16 bytes ] :      511 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  17 [      256 bytes ] :       32 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  31 [     1024 bytes ] :     1320 objs;   1.3 MiB;   1.3 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+------------------------------------------------
+PageHeap: 3 sizes;    0.7 MiB free;    0.0 MiB unmapped
+------------------------------------------------
+     1 pages *      6 spans ~    0.0 MiB;    0.0 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+     2 pages *      1 spans ~    0.0 MiB;    0.1 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+    80 pages *      1 spans ~    0.6 MiB;    0.7 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+>128   large *      0 spans ~    0.0 MiB;    0.7 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+
+Iteration: 400 of 1000
+------------------------------------------------
+MALLOC:        1048904 (    1.0 MiB) Bytes in use by application
+MALLOC: +       679936 (    0.6 MiB) Bytes in page heap freelist
+MALLOC: +       367952 (    0.4 MiB) Bytes in central cache freelist
+MALLOC: +      1048576 (    1.0 MiB) Bytes in transfer cache freelist
+MALLOC: +          360 (    0.0 MiB) Bytes in thread cache freelists
+MALLOC: +      2621440 (    2.5 MiB) Bytes in malloc metadata
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Actual memory used (physical + swap)
+MALLOC: +            0 (    0.0 MiB) Bytes released to OS (aka unmapped)
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Virtual address space used
+MALLOC:
+MALLOC:            182              Spans in use
+MALLOC:              1              Thread heaps in use
+MALLOC:           8192              Tcmalloc page size
+------------------------------------------------
+Call ReleaseFreeMemory() to release freelist memory to the OS (via madvise()).
+Bytes released to the OS take up virtual address space but no physical memory.
+------------------------------------------------
+Total size of freelists for per-thread caches,
+transfer cache, and central cache, by size class
+------------------------------------------------
+class   1 [        8 bytes ] :     1023 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   2 [       16 bytes ] :      511 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   3 [       32 bytes ] :      255 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   4 [       48 bytes ] :      166 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   6 [       80 bytes ] :      101 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  17 [      256 bytes ] :       32 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  31 [     1024 bytes ] :     1336 objs;   1.3 MiB;   1.4 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+------------------------------------------------
+PageHeap: 3 sizes;    0.6 MiB free;    0.0 MiB unmapped
+------------------------------------------------
+     1 pages *      4 spans ~    0.0 MiB;    0.0 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+     2 pages *      1 spans ~    0.0 MiB;    0.0 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+    77 pages *      1 spans ~    0.6 MiB;    0.6 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+>128   large *      0 spans ~    0.0 MiB;    0.6 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+
+Iteration: 600 of 1000
+------------------------------------------------
+MALLOC:        1048904 (    1.0 MiB) Bytes in use by application
+MALLOC: +       688128 (    0.7 MiB) Bytes in page heap freelist
+MALLOC: +       359760 (    0.3 MiB) Bytes in central cache freelist
+MALLOC: +      1048576 (    1.0 MiB) Bytes in transfer cache freelist
+MALLOC: +          360 (    0.0 MiB) Bytes in thread cache freelists
+MALLOC: +      2621440 (    2.5 MiB) Bytes in malloc metadata
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Actual memory used (physical + swap)
+MALLOC: +            0 (    0.0 MiB) Bytes released to OS (aka unmapped)
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Virtual address space used
+MALLOC:
+MALLOC:            182              Spans in use
+MALLOC:              1              Thread heaps in use
+MALLOC:           8192              Tcmalloc page size
+------------------------------------------------
+Call ReleaseFreeMemory() to release freelist memory to the OS (via madvise()).
+Bytes released to the OS take up virtual address space but no physical memory.
+------------------------------------------------
+Total size of freelists for per-thread caches,
+transfer cache, and central cache, by size class
+------------------------------------------------
+class   1 [        8 bytes ] :     1023 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   2 [       16 bytes ] :      511 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   3 [       32 bytes ] :      255 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   4 [       48 bytes ] :      166 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   6 [       80 bytes ] :      101 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  17 [      256 bytes ] :       32 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  31 [     1024 bytes ] :     1328 objs;   1.3 MiB;   1.3 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+------------------------------------------------
+PageHeap: 3 sizes;    0.7 MiB free;    0.0 MiB unmapped
+------------------------------------------------
+     1 pages *      5 spans ~    0.0 MiB;    0.0 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+     2 pages *      1 spans ~    0.0 MiB;    0.1 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+    77 pages *      1 spans ~    0.6 MiB;    0.7 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+>128   large *      0 spans ~    0.0 MiB;    0.7 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+
+Iteration: 800 of 1000
+------------------------------------------------
+MALLOC:        1048904 (    1.0 MiB) Bytes in use by application
+MALLOC: +       712704 (    0.7 MiB) Bytes in page heap freelist
+MALLOC: +       335184 (    0.3 MiB) Bytes in central cache freelist
+MALLOC: +      1048576 (    1.0 MiB) Bytes in transfer cache freelist
+MALLOC: +          360 (    0.0 MiB) Bytes in thread cache freelists
+MALLOC: +      2621440 (    2.5 MiB) Bytes in malloc metadata
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Actual memory used (physical + swap)
+MALLOC: +            0 (    0.0 MiB) Bytes released to OS (aka unmapped)
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Virtual address space used
+MALLOC:
+MALLOC:            182              Spans in use
+MALLOC:              1              Thread heaps in use
+MALLOC:           8192              Tcmalloc page size
+------------------------------------------------
+Call ReleaseFreeMemory() to release freelist memory to the OS (via madvise()).
+Bytes released to the OS take up virtual address space but no physical memory.
+------------------------------------------------
+Total size of freelists for per-thread caches,
+transfer cache, and central cache, by size class
+------------------------------------------------
+class   1 [        8 bytes ] :     1023 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   2 [       16 bytes ] :      511 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   3 [       32 bytes ] :      255 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   4 [       48 bytes ] :      166 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   6 [       80 bytes ] :      101 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  17 [      256 bytes ] :       32 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  31 [     1024 bytes ] :     1304 objs;   1.3 MiB;   1.3 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+------------------------------------------------
+PageHeap: 3 sizes;    0.7 MiB free;    0.0 MiB unmapped
+------------------------------------------------
+     1 pages *      8 spans ~    0.1 MiB;    0.1 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+     2 pages *      1 spans ~    0.0 MiB;    0.1 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+    77 pages *      1 spans ~    0.6 MiB;    0.7 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+>128   large *      0 spans ~    0.0 MiB;    0.7 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+
+Iteration: 1000 of 1000
+------------------------------------------------
+MALLOC:        1048904 (    1.0 MiB) Bytes in use by application
+MALLOC: +       712704 (    0.7 MiB) Bytes in page heap freelist
+MALLOC: +       335184 (    0.3 MiB) Bytes in central cache freelist
+MALLOC: +      1048576 (    1.0 MiB) Bytes in transfer cache freelist
+MALLOC: +          360 (    0.0 MiB) Bytes in thread cache freelists
+MALLOC: +      2621440 (    2.5 MiB) Bytes in malloc metadata
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Actual memory used (physical + swap)
+MALLOC: +            0 (    0.0 MiB) Bytes released to OS (aka unmapped)
+MALLOC:   ------------
+MALLOC: =      5767168 (    5.5 MiB) Virtual address space used
+MALLOC:
+MALLOC:            182              Spans in use
+MALLOC:              1              Thread heaps in use
+MALLOC:           8192              Tcmalloc page size
+------------------------------------------------
+Call ReleaseFreeMemory() to release freelist memory to the OS (via madvise()).
+Bytes released to the OS take up virtual address space but no physical memory.
+------------------------------------------------
+Total size of freelists for per-thread caches,
+transfer cache, and central cache, by size class
+------------------------------------------------
+class   1 [        8 bytes ] :     1023 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   2 [       16 bytes ] :      511 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   3 [       32 bytes ] :      255 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   4 [       48 bytes ] :      166 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class   6 [       80 bytes ] :      101 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  17 [      256 bytes ] :       32 objs;   0.0 MiB;   0.0 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+class  31 [     1024 bytes ] :     1304 objs;   1.3 MiB;   1.3 cum MiB;    0.000 overhead MiB;    0.000 cum overhead MiB
+------------------------------------------------
+PageHeap: 3 sizes;    0.7 MiB free;    0.0 MiB unmapped
+------------------------------------------------
+     1 pages *      8 spans ~    0.1 MiB;    0.1 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+     2 pages *      1 spans ~    0.0 MiB;    0.1 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+    77 pages *      1 spans ~    0.6 MiB;    0.7 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+>128   large *      0 spans ~    0.0 MiB;    0.7 MiB cum; unmapped:    0.0 MiB;    0.0 MiB cum
+
+PASS
+PASS thread_dealloc_unittest (exit status: 0)

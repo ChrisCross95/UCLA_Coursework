@@ -1,0 +1,2 @@
+# script to determine file sizes in image
+./lab3a | fgrep "file size (decimal): " | sed 's/^.*: //' | sort -n
